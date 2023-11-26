@@ -1,0 +1,22 @@
+#!/usr/bin/env python3
+
+import argparse
+import logging
+
+from helpers import read_md, add_md
+
+# build md command
+parser = argparse.ArgumentParser()
+parser.add_argument("name", help="Name of file to get metadata of", type=str)
+parser.add_argument("-a", "--add", help="add metadata to the given file", type=str)
+args = parser.parse_args()
+
+# add metadata
+if args.add:
+    add_md(args.name, args.add)
+    print(f"Metadata of < {args.name} > modified successfully")
+    logging.info("Metadata modified of < args.name > modified successfully")
+else:
+    # read metadata
+    file_md = read_md(args.name)
+    [print(k, ':', v) for k, v in file_md.items()]

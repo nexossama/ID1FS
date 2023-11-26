@@ -1,0 +1,105 @@
+DEBUG : system : 2023-11-15 15:45:32,904 : Command used < id1fs -s >
+DEBUG : system : 2023-11-15 15:45:42,379 : Command used < id1fs -o >
+INFO : system : 2023-11-15 15:45:42,946 : ID1FS is turned on successfully
+DEBUG : system : 2023-11-15 15:45:57,110 : Command used < id1fs -f >
+ERROR : system : 2023-11-15 15:45:57,111 : Can not use this command. Please 'connect' to ID1FS first 
+DEBUG : system : 2023-11-15 15:46:18,911 : Command used < signup -u hamza >
+INFO : system : 2023-11-15 15:46:22,303 : The user < hamza > is created successfully
+DEBUG : system : 2023-11-15 15:46:36,050 : Command used < connect -u hamza >
+INFO : system : 2023-11-15 15:46:37,792 : The user < hamza > is connected successfully
+DEBUG : hamza : 2023-11-15 15:46:48,017 : Command used < id1fs -f >
+DEBUG : hamza : 2023-11-15 15:47:13,186 : Command used < create textfile.txt >
+INFO : hamza : 2023-11-15 15:47:13,347 : The file < textfile.txt > created successfully
+INFO : hamza : 2023-11-15 15:47:13,482 : The file < textfile.txt > successfully backed up
+DEBUG : hamza : 2023-11-15 15:47:27,639 : Command used < fopen -e textfile.txt >
+INFO : hamza : 2023-11-15 15:47:27,919 : The file < textfile.txt > successfully backed up
+DEBUG : hamza : 2023-11-15 15:48:03,799 : Command used < fopen textfile.txt >
+DEBUG : hamza : 2023-11-15 15:48:08,052 : Command used < id1fs -f >
+DEBUG : hamza : 2023-11-15 15:51:53,529 : Command used < restore textfile.txt >
+INFO : hamza : 2023-11-15 15:51:53,650 : The file < textfile.txt > restored from backup section successfully
+DEBUG : hamza : 2023-11-15 15:52:03,710 : Command used < restore textfile.txt >
+INFO : hamza : 2023-11-15 15:52:03,831 : The file < textfile.txt > restored from backup section successfully
+DEBUG : hamza : 2023-11-15 15:52:47,574 : Command used < id1fs -q >
+INFO : hamza : 2023-11-15 15:52:47,576 : ID1FS is already off !!
+DEBUG : system : 2023-11-15 16:31:45,354 : Command used < id1fs -q >
+ERROR : system : 2023-11-15 16:31:45,354 : You can not use this command. Please 'turn on' ID1FS first.
+DEBUG : system : 2023-11-15 16:32:12,027 : Command used < id1fs -s >
+DEBUG : system : 2023-11-15 16:32:29,526 : Command used < id1fs -o >
+INFO : system : 2023-11-15 16:32:29,809 : ID1FS is turned on successfully
+DEBUG : system : 2023-11-15 16:32:34,039 : Command used < id1fs -s >
+DEBUG : system : 2023-11-15 16:33:26,089 : Command used < signup -u oussama >
+INFO : system : 2023-11-15 16:33:32,183 : The user < oussama > is created successfully
+DEBUG : system : 2023-11-15 16:33:46,792 : Command used < connect -u oussama >
+INFO : system : 2023-11-15 16:33:49,633 : The user < oussama > is connected successfully
+DEBUG : oussama : 2023-11-15 16:33:52,941 : Command used < id1fs -s >
+DEBUG : oussama : 2023-11-15 16:34:38,698 : Command used < id1fs -f >
+DEBUG : oussama : 2023-11-15 16:35:15,132 : Command used < restore textfile.txt >
+INFO : oussama : 2023-11-15 16:35:15,252 : The file < textfile.txt > restored from backup section successfully
+DEBUG : oussama : 2023-11-15 16:35:20,311 : Command used < restore textfile.txt >
+INFO : oussama : 2023-11-15 16:35:20,435 : The file < textfile.txt > restored from backup section successfully
+DEBUG : oussama : 2023-11-15 16:35:39,745 : Command used < create text.txt >
+INFO : oussama : 2023-11-15 16:35:39,863 : The file < text.txt > created successfully
+INFO : oussama : 2023-11-15 16:35:39,999 : The file < text.txt > successfully backed up
+DEBUG : oussama : 2023-11-15 16:36:11,751 : Command used < fopen text.txt >
+DEBUG : oussama : 2023-11-15 16:36:24,022 : Command used < fopen -e text.txt >
+INFO : oussama : 2023-11-15 16:36:24,326 : The file < text.txt > successfully backed up
+DEBUG : oussama : 2023-11-15 16:37:02,019 : Command used < fopen text.txt >
+DEBUG : oussama : 2023-11-15 16:39:17,053 : Command used < connect -d >
+INFO : oussama : 2023-11-15 16:39:17,054 : The user < oussama > is disconnected successfully
+DEBUG : system : 2023-11-15 16:39:29,845 : Command used < id1fs -s >
+DEBUG : system : 2023-11-15 16:39:35,999 : Command used < id1fs -f >
+ERROR : system : 2023-11-15 16:39:36,000 : Can not use this command. Please 'connect' to ID1FS first 
+DEBUG : system : 2023-11-15 16:39:55,813 : Command used < restore textfile.txt >
+INFO : system : 2023-11-15 16:39:55,938 : The file < textfile.txt > restored from backup section successfully
+DEBUG : system : 2023-11-15 16:39:55,989 : Command used < restore text.txt >
+INFO : system : 2023-11-15 16:39:56,115 : The file < text.txt > restored from backup section successfully
+DEBUG : system : 2023-11-15 21:40:24,201 : Command used < id1fs -s >
+ERROR : system : 2023-11-15 21:40:24,471 : Time configuration is required to use ID1FS
+DEBUG : system : 2023-11-15 21:42:33,626 : Command used < id1fs -o >
+ERROR : system : 2023-11-15 21:42:33,860 : Time configuration is required to use ID1FS
+ERROR : system : 2023-11-15 21:42:33,862 : Failed to turn on --> Time configuration is required to use ID1FS
+DEBUG : system : 2023-11-15 16:43:22,385 : Command used < id1fs -o >
+INFO : system : 2023-11-15 16:43:22,649 : ID1FS is turned on successfully
+DEBUG : system : 2023-11-15 16:44:39,912 : Command used < id1fs -q >
+INFO : system : 2023-11-15 16:44:39,913 : ID1FS is already off !!
+DEBUG : system : 2023-11-15 16:44:51,611 : Command used < id1fs -o >
+INFO : system : 2023-11-15 16:44:51,885 : ID1FS is turned on successfully
+DEBUG : system : 2023-11-15 16:45:07,435 : Command used < id1fs -s >
+DEBUG : system : 2023-11-15 16:48:23,994 : Command used < id1fs -q >
+INFO : system : 2023-11-15 16:48:23,995 : ID1FS is already off !!
+DEBUG : system : 2023-11-15 17:02:07,198 : Command used < id1fs -q >
+ERROR : system : 2023-11-15 17:02:07,198 : You can not use this command. Please 'turn on' ID1FS first.
+DEBUG : system : 2023-11-15 17:02:11,164 : Command used < id1fs -s >
+DEBUG : system : 2023-11-15 21:33:04,157 : Command used < id1fs -s >
+DEBUG : system : 2023-11-15 21:52:28,177 : Command used < id1fs -o >
+INFO : system : 2023-11-15 21:52:29,539 : ID1FS is turned on successfully
+DEBUG : system : 2023-11-15 21:52:34,230 : Command used < id1fs -s >
+DEBUG : system : 2023-11-15 21:53:20,429 : Command used < id1fs -q >
+INFO : system : 2023-11-15 21:53:20,462 : ID1FS is already off !!
+DEBUG : system : 2023-11-15 21:53:23,709 : Command used < id1fs -s >
+DEBUG : system : 2023-11-15 21:55:03,314 : Command used < id1fs -s >
+DEBUG : system : 2023-11-15 22:05:09,792 : Command used < id1fs -s >
+DEBUG : system : 2023-11-15 22:05:14,282 : Command used < id1fs -o >
+INFO : system : 2023-11-15 22:05:14,546 : ID1FS is turned on successfully
+DEBUG : system : 2023-11-15 22:06:24,737 : Command used < restore textfile.txt >
+INFO : system : 2023-11-15 22:06:25,162 : The file < textfile.txt > restored from backup section successfully
+DEBUG : system : 2023-11-15 22:06:25,213 : Command used < restore text.txt >
+INFO : system : 2023-11-15 22:06:25,331 : The file < text.txt > restored from backup section successfully
+DEBUG : system : 2023-11-15 22:06:30,394 : Command used < restore textfile.txt >
+INFO : system : 2023-11-15 22:06:30,523 : The file < textfile.txt > restored from backup section successfully
+DEBUG : system : 2023-11-15 22:06:30,572 : Command used < restore text.txt >
+INFO : system : 2023-11-15 22:06:30,690 : The file < text.txt > restored from backup section successfully
+DEBUG : system : 2023-11-15 22:09:23,669 : Command used < signup -u othman >
+INFO : system : 2023-11-15 22:09:31,555 : The user < othman > is created successfully
+DEBUG : system : 2023-11-15 22:14:54,152 : Command used < connect -u othman >
+INFO : system : 2023-11-15 22:14:56,020 : The user < othman > is connected successfully
+DEBUG : othman : 2023-11-15 22:15:29,550 : Command used < id1fs -s >
+DEBUG : othman : 2023-11-15 22:15:34,168 : Command used < id1fs -f >
+DEBUG : othman : 2023-11-15 22:16:06,311 : Command used < create file.txt >
+INFO : othman : 2023-11-15 22:16:06,431 : The file < file.txt > created successfully
+INFO : othman : 2023-11-15 22:16:06,560 : The file < file.txt > successfully backed up
+DEBUG : othman : 2023-11-15 22:16:33,490 : Command used < id1fs -f >
+DEBUG : othman : 2023-11-15 22:19:03,034 : Command used < fopen -e file.txt >
+INFO : othman : 2023-11-15 22:19:03,372 : The file < file.txt > successfully backed up
+DEBUG : othman : 2023-11-15 22:19:28,664 : Command used < fopen file.txt >
+DEBUG : othman : 2023-11-15 22:19:41,333 : Command used < fopen -H file.txt >

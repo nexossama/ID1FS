@@ -1,0 +1,103 @@
+#!/usr/bin/env python3
+
+import getpass
+import hashlib
+import argparse
+import subprocess
+import sys
+import logging
+from helpers import Paths, exit_if_off, exit_if_disconnected, logger_config, disconnect, get_connected_user,get_file_md,get_nodes,get_file_in_node
+
+# build signup command
+parser = argparse.ArgumentParser()
+parser.add_argument("-u", "--username", type=str, help="the username of the account to create")
+parser.add_argument("-d", "--delete_account", action="store_true", help="to delete an account")
+args = parser.parse_args()
+
+# logging command
+logger_config()
+command_elements = " ".join(sys.argv[1:])
+command = f"signup {command_elements}"
+logging.debug(f"Command used < {command} >")
+
+# don't allow file creation if id1fs is off
+exit_if_off()
+
+# check options combination
+if args.delete_account and args.username:
+    print("You can not combine this options : username delete")
+    logging.error("Failed to delete account --> You can not combine this options : username delete")
+    sys.exit()
+
+# delete account
+if args.delete_account:
+    exit_if_disconnected()
+    f = open(Paths.get_credentials_path(), "r+")
+    lines = f.readlines()
+    connected_user = get_connected_user()
+    find = False
+    for line in lines:
+        user, passwd = line.split(" : ")
+        if connected_user == user:
+            print(f"All files Owned by < {connected_user} > will be also deleted ")
+            option=input("Are you sure to delete this account ?[y/n]")
+            if option.upper()=="N":
+                print("Account deletion aborted")
+                logging.info("Account deletion aborted")
+                sys.exit()
+            lines.remove(line)
+            nodes_names = get_nodes()
+            filenames = []
+            for node in nodes_names:
+                for file in get_file_in_node(node):
+                    file_md = get_file_md(file)
+                    if get_connected_user() != file_md["Owner"]:
+                        continue
+                    if file in filenames:
+                        continue
+                    subprocess.run(["delete",file,"-f"])
+            find = True
+            disconnect()
+            break
+    f.close()
+    if not find:
+        print("No username with this name")
+        logging.error("Failed to delete --> Username not found")
+    else:
+        # log user deletion
+        print(f"The user < {connected_user} > is deleted successfully")
+        logging.info(f"The user < {connected_user} > is deleted successfully")
+        f = open(Paths.get_credentials_path(), "w")
+        f.write("".join(lines))
+        f.close()
+    sys.exit()
+
+# check if user is already sign in
+if args.username:
+    f = open(Paths.get_credentials_path(), 'r+')
+    lines = f.readlines()
+    find = False
+    for line in lines:
+        user, passwd = line.split(" : ")
+        if args.username == user:
+            find = True
+            break
+    # signup new_user
+    if not find:
+        password = getpass.getpass("Enter your password : ")
+        confirm_password = getpass.getpass("Confirm your password : ")
+        if password == confirm_password:
+            # hashing password
+            hashed_pass = hashlib.sha256(password.encode()).hexdigest()
+            f.write(f"{args.username} : {hashed_pass}\n")
+            print(f"the user : {args.username} is created successfully")
+            logging.info(f"The user < {args.username} > is created successfully")
+        else:
+            print("password do not match ,please try again")
+            logging.error(f"Failed to signup --> Password do not match")
+    else:
+        # log signup failure
+        print("user is already existing , try to connect or signup with another username")
+        logging.error(f"Failed to signup --> Username already existing")
+
+    f.close()

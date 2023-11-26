@@ -1,0 +1,78 @@
+#!/usr/bin/env python3
+
+import argparse
+import logging
+import os
+import subprocess
+import sys
+from helpers import list_from_args, logger_config, backup_file, exit_if_off, exit_if_disconnected, Paths, \
+    create_file_md, get_file_md, get_connected_user
+
+
+# built fopen command
+parser = argparse.ArgumentParser()
+parser.add_argument("name", type=str, help="display the content of a text file")
+parser.add_argument("-e", "--edit", action="store_true", help="to edit the given file")
+parser.add_argument("-m", "--more", action="store_true", help="to display (not to edit) the content page by page ")
+parser.add_argument("-H", "--head", action="store_true", help="to display the first lines")
+parser.add_argument("-t", "--tail", action="store_true", help="to display the last lines")
+parser.add_argument("-l", "--less", action="store_true", help="to display the content faster")
+args = parser.parse_args()
+
+# logging command
+logger_config()
+command_elements = " ".join(sys.argv[1:])
+command = f"fopen {command_elements}"
+logging.debug(f"Command used < {command} >")
+
+# don't allow file creation if id1fs is off or no user is connected
+exit_if_off()
+exit_if_disconnected()
+
+# get file path
+main_path = Paths.get_file_path(args.name)
+file_md = get_file_md(args.name)
+
+# ensure that the connected user is the owner
+if get_connected_user() != file_md["Owner"]:
+    print("Permission denied")
+    logging.error("Failed to open --> Permission denied")
+    sys.exit()
+
+# check options combination
+if not args.edit:
+    if (args.head or args.tail) and (args.less or args.more):
+        print(f"You can not combine this options : {' '.join(list_from_args(args, True))}")
+        logging.error(f"Failed to open --> You can not combine this options : {' '.join(list_from_args(args, True))}")
+    elif args.head or args.tail:
+        if args.head:
+            print("----- Head -----")
+            p = subprocess.run(["head", main_path], capture_output=True, text=True)
+            print(p.stdout)
+            print("----------------")
+        if args.tail:
+            print("----- Tail -----")
+            p = subprocess.run(["tail", main_path], capture_output=True, text=True)
+            print(p.stdout)
+            print("----------------")
+    elif args.less and args.more:
+        print(f"You can not combine this options : less more")
+        logging.error(f"Failed to open --> You can not combine this options : less more")
+    elif args.more:
+        subprocess.run(["more", main_path])
+    elif args.less:
+        subprocess.run(["less", main_path])
+    else:
+        p = subprocess.run(["cat", main_path], capture_output=True, text=True)
+        print(p.stdout)
+else:
+    # check usage of edit[-e] option
+    if len(list_from_args(args, True)) != 1:
+        print(f"You can not combine this options : {' '.join(list_from_args(args, True))}")
+        logging.error(f"Failed to open --> You can not combine this options : {' '.join(list_from_args(args, True))}")
+    else:
+        # edit the file
+        subprocess.run(["gedit", main_path])
+        create_file_md(args.name, os.path.dirname(main_path))
+        print(f"The file < {args.name} > successfully modified")
+        backup_file(main_path)

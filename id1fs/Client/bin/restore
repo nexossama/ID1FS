@@ -1,0 +1,32 @@
+#!/usr/bin/env python3
+
+import argparse
+import logging
+import sys
+
+from helpers import logger_config, Paths, restore, check_main_file_exist, exit_if_off
+
+# build restore command
+parser = argparse.ArgumentParser()
+parser.add_argument("name", help="Name of file to create", type=str)
+args = parser.parse_args()
+
+# logging command
+logger_config()
+command_elements = " ".join(sys.argv[1:])
+command = f"restore {command_elements}"
+logging.debug(f"Command used < {command} >")
+
+# don't allow file creation if id1fs is off
+exit_if_off()
+# exit_if_disconnected()
+
+# check file existence
+if check_main_file_exist(args.name):
+    print("Please choose another name")
+    logging.error("Failed to restore --> Another file with the same name is already existing")
+    sys.exit()
+
+# restore file
+backup_path = Paths.get_backup_file_path(args.name)
+restore(backup_path)

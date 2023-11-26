@@ -1,0 +1,9 @@
+{
+    "Nodes": {
+        "Node1": [
+            "textfile.txt",
+            "text.txt",
+            "file.txt"
+        ]
+    }
+}

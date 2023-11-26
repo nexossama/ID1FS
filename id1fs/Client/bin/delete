@@ -1,0 +1,29 @@
+#!/usr/bin/env python3
+import argparse
+import logging
+import sys
+
+from helpers import logger_config, delete_file, delete_backup, exit_if_off, exit_if_disconnected
+
+
+# built delete command
+parser = argparse.ArgumentParser()
+parser.add_argument("name", help="Name of file to delete", type=str)
+parser.add_argument("-f", "--force", help="delete file from data and backup", action="store_true")
+args = parser.parse_args()
+
+# logging command
+logger_config()
+command_elements = " ".join(sys.argv[1:])
+command = f"delete {command_elements}"
+logging.debug(f"Command used < {command} >")
+
+# don't allow file creation if id1fs is off or no user is connected
+exit_if_off()
+exit_if_disconnected()
+
+# delete file
+delete_file(args.name)
+# force[-f] deletion
+if args.force:
+    delete_backup(args.name)

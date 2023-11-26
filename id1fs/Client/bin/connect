@@ -1,0 +1,67 @@
+#!/usr/bin/env python3
+import sys
+
+from helpers import Paths, set_connected_user, get_connected_user, disconnect, exit_if_off
+import getpass
+import hashlib
+import argparse
+import logging
+
+
+# build connect command
+parser = argparse.ArgumentParser()
+parser.add_argument("-u", "--username", type=str, help="username of account to connect")
+parser.add_argument("-d", "--disconnect", action="store_true", help="to disconnect the current connected user")
+args = parser.parse_args()
+
+# logging command
+command_elements = " ".join(sys.argv[1:])
+command = f"connect {command_elements}"
+logging.debug(f"Command used < {command} >")
+
+# don't allow file creation if id1fs is off
+exit_if_off()
+
+# disconnect [-d] option
+if args.disconnect:
+    # forbid disconnect and connect combination
+    if args.username:
+        print("You can not combine this options : username disconnect")
+        logging.error("You can not combine this options : username disconnect")
+        sys.exit()
+
+    # check user connection before disconnection
+    connected_user = get_connected_user()
+    if connected_user == "system":
+        print("No user is connected")
+        logging.error("Failed to disconnect --> No user is connected")
+        sys.exit()
+    else:
+        disconnect()
+        sys.exit()
+
+credentials = open(Paths.get_credentials_path(), "r")
+lines = credentials.readlines()
+find = False
+
+# connect user
+for line in lines:
+    user, passwd = line.split(" : ")
+    if user == args.username:
+        password = getpass.getpass("Enter your password : ")
+        hashed_pass = hashlib.sha256(password.encode()).hexdigest()
+        find = True
+        if passwd[:-1] == hashed_pass:
+            set_connected_user(args.username)
+            print(f"The user < {args.username} > is connected successfully")
+            logging.info(f"The user < {args.username} > is connected successfully")
+        else:
+            print("Failed to connect --> Incorrected password ,please try again")
+            logging.error("Failed to connect --> Incorrect password")
+        break
+
+# log connection failure
+if not find:
+    print("username not existing, please check for spelling mistakes or create a new account")
+    logging.error("Failed to connect --> Username not found")
+credentials.close()

@@ -1,0 +1,39 @@
+#!/usr/bin/env python3
+import argparse
+import configparser
+import logging
+import os
+import shutil
+import sys
+
+from helpers import logger_config, check_main_file_exist, exit_if_off, exit_if_disconnected,exit_if_download_not_set, Paths
+
+# build download command
+parser = argparse.ArgumentParser()
+parser.add_argument("name", help="name of file to download", type=str)
+args = parser.parse_args()
+
+# logging command
+logger_config()
+command_elements = " ".join(sys.argv[1:])
+command = f"download {command_elements}"
+logging.debug(f"Command used < {command} >")
+
+# don't allow file creation if id1fs is off or no user is connected or download destination not set
+exit_if_off()
+exit_if_disconnected()
+exit_if_download_not_set()
+
+# configure download id1fs_nodes -> destination
+config = configparser.ConfigParser()
+config.read(Paths.get_conf_path())
+destination = config["Download"]["destination"]
+# get file path and download it
+main_path = os.path.join(Paths.get_idfs_path(), f"/Server/Main/{args.name}")
+if check_main_file_exist(args.name):
+    shutil.copy(Paths.get_file_path(args.name), os.path.join(destination, args.name))
+    print(f"File < {args.name} > is downloaded successfully")
+    logging.info(f"File < {args.name} > is downloaded successfully")
+else:
+    print(f"File < {args.name} > not found ,please check for spelling mistakes")
+    logging.error(f"Failed to download < {args.name} > --> File does not exist")

@@ -1,0 +1,43 @@
+#!/usr/bin/env python3
+import argparse
+import logging
+import sys
+
+from helpers import Paths, logger_config, exit_if_off, exit_if_disconnected, filter_by_extension, filter_by_size
+
+# built filter command
+parser = argparse.ArgumentParser()
+parser.add_argument("-s", "--size", type=float, nargs=2,
+                    help="Search By Size --> Gives the available file names according to the inputted size interval")
+parser.add_argument("-x", "--extension", nargs="+", type=str,
+                    help="Search By Size --> Gives the available file names according to the inputted size interval")
+args = parser.parse_args()
+
+# logging command
+logger_config()
+command_elements = " ".join(sys.argv[1:])
+command = f"filter {command_elements}"
+logging.debug(f"Command used < {command} >")
+
+# don't allow file creation if id1fs is off or no user is connected
+exit_if_off()
+exit_if_disconnected()
+
+# log wrong command usage
+if not args.size and not args.extension:
+    print("Wrong command usage --> Missing arguments")
+    logging.error("Failed to filter --> Missing arguments")
+
+# forbid size[-s] and extension[-x] combination
+if args.size and args.extension:
+    print("You can not combine this options : size extension")
+    logging.error("Failed to filter --> You can not combine this options : size extension")
+# filter by extension
+elif args.extension:
+    for ext in args.extension:
+        print(f"------- {ext} ---------")
+        filter_by_extension(Paths.get_files_md_path(), ext)
+# filter by size
+elif args.size:
+    min, max = list(args.size)
+    filter_by_size(Paths.get_files_md_path(), min, max)

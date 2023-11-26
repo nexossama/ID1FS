@@ -1,0 +1,33 @@
+#!/usr/bin/env python3
+import argparse
+import logging
+import sys
+
+from helpers import logger_config, create_file, exit_if_off, exit_if_disconnected, backup_file, Paths, \
+    check_backup_file_exist, check_main_file_exist
+
+# build create command
+parser = argparse.ArgumentParser()
+parser.add_argument("name", help="Name of file to create", type=str)
+args = parser.parse_args()
+
+# log command
+logger_config()
+command_elements = " ".join(sys.argv[1:])
+command = f"create {command_elements}"
+logging.debug(f"Command used < {command} >")
+
+# don't allow file creation if id1fs is off or no user is connected
+exit_if_off()
+exit_if_disconnected()
+
+# forbid same name file creation
+if check_main_file_exist(args.name) or check_backup_file_exist(args.name):
+    print("Please choose another name")
+    logging.error("Failed to create --> another file with same name is already existing")
+    sys.exit()
+
+# get best node path and create file
+node_path = Paths.get_best_main_path(filename=args.name)
+if create_file(args.name):
+    backup_file(Paths.get_file_path(args.name))
